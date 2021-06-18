@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="posts-wrapper">
         <h2>
             <span v-if="typeList == 'postsLikedById'"> Les posts que <span v-if="!isCurrentUser">{{userDisplayed}} a</span><span v-else>vous</span> likés :</span>
             <span v-else><span v-if="!isCurrentUser">Les</span><span v-else>Vos</span> posts <span v-if="!isCurrentUser">de {{userDisplayed}}</span> :</span>
@@ -48,7 +48,7 @@ export default {
 
         characterLimit(content){
             let text = content;
-            const maxLength = 350;
+            const maxLength = 300;
             if(text.length > maxLength){
                 return text.substring(0, maxLength - 3) + "...";
             }
@@ -64,10 +64,8 @@ export default {
 
 <style scoped>
 
-
-    .UserPost{
-        margin: 30px auto;
-        max-width: 800px;
+    .posts-wrapper{
+        padding: 25px 0;
     }
 
     .post{
@@ -76,15 +74,29 @@ export default {
         margin-top: 20px;
         box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
         text-align: left;
-        transition-duration: .1s;
     }
 
     .post-title{
         margin-top: 0;
+        white-space : nowrap;
+        overflow : hidden;
+        text-overflow :    ellipsis;
+    }
+
+    .post-content{
+        margin: auto;
+        height: 20px;
+        white-space : nowrap;
+        overflow : hidden;
+        text-overflow :    ellipsis;
     }
 
     .post:hover{
         box-shadow: 0px 0px 50px -7px rgba(0, 0, 0, 0.2);
+    }
+
+    ul{
+        padding:0
     }
 
 </style>

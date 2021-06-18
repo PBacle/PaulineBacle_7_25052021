@@ -54,8 +54,12 @@ export default {
         transition-duration: .2s;
     }
 
+    #logOut-btn:hover{
+        color: rgb(117, 117, 117);
+    }
 
-    @media (max-width: 670px) {
+
+    @media (max-width: 690px) {
         .header{
             flex-direction: column;
             padding: 30px 20px 20px 20px;

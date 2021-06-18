@@ -1,6 +1,6 @@
 <template>
 
-    <div class="error-message" v-if="!modify">{{errorMessage}}</div>
+    <div class="error-message page404" v-if="!modify">{{errorMessage}}</div>
 
     <div class="UserProfile" v-if="isVisible && $store.state.isLoggedIn ">
       <section class="profile-wrapper" >
@@ -259,15 +259,33 @@ export default {
     }
 
     .profile-infos {
-      width : 90%;
+      max-width : 90%;
+        margin: 25px auto;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        max-width: 800px;
+        text-align: left;
+        box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
+        border-bottom: solid red 5px;
     }
-
 
     .profile-card{
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin : 25px 0 0 0;
     }
+
+
+    @media (max-width: 690px) {
+      .profile-infos {
+        max-width : calc(100% - 30px - 30px);
+        padding: 20px;
+      }
+
+    }
+
 
     .profile-infos-bio{
       display:flex;
@@ -300,21 +318,14 @@ export default {
       margin-bottom: 10px;
     }
 
-    .profile-infos{
-        display: flex;
-        flex-direction: column;
-        margin: 50px auto;
-        padding: 30px;
-        max-width: 800px;
-        text-align: left;
-        box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
-        border-bottom: solid red 5px;
-    }
-
     .profile-infos-id{
       display: flex;
       flex-direction: column;
     } 
+
+    .profile-wrapper{
+           width: 100%;
+    }
 
 
     form{
@@ -327,12 +338,14 @@ export default {
         padding: 10px;
         margin-bottom: 15px;
         text-align: left;
+        max-width: 80%;
     }
 
     fieldset{
       border : red dashed 2pt ;
       display: flex;
       flex-wrap: wrap;
+
     }
 
     fieldset > div {
@@ -355,10 +368,5 @@ export default {
         padding : 0 20px ;
       }
 
-      .button-panel{
-        display: flex;
-        justify-content: space-evenly;
-        margin-top: 10px;
-      }
 
 </style>
