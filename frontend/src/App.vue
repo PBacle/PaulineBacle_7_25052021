@@ -17,10 +17,7 @@ export default {
     }, 
 
     computed: {
-      messageRetour() { 
-              console.log(this.$store.getters.message);
-
-        return this.$store.getters.message; },
+      messageRetour() { return this.$store.getters.message; },
     }
 }
 </script>

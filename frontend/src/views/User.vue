@@ -7,6 +7,8 @@
 
       <UserProfile v-if="$store.state.isLoggedIn && !deleted" @profile-deleted="afterDeleted" />
 
+      <div class="error-message">{{errorMessage}}</div>
+
     </div>
 </template>
 
@@ -25,26 +27,34 @@ export default {
   data() {
     return {
       deleted:false,
+      errorMessage:'',
     };
   },
 
     methods: {
-        getBackToFeed() { 
-            this.$store.dispatch("clearLog");
-            this.$router.push("/"); 
-
-        },
-        afterDeleted(user) {
+      getBackToFeed(){
+          this.$router.push("/"); 
+      },
+      afterDeleted(user) {
             this.deleted = true ; 
             if(user.id == this.$store.state.userLoggedIn.userId ){
-                this.$store.dispatch("logOut") ;
+                this.$store.dispatch("logOut")
+                .then(() => this.$router.push("/"))
+                .catch((error) => this.errorMessage = error) ;
+            }else{
+              this.$router.push("/"); 
             }
-            setTimeout(this.getBackToFeed, 1000) ; 
         }
     }
   }
 </script>
 
 <style scoped>
+
+
+    .error-message{
+        background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
+    }
 
 </style>

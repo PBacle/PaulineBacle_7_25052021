@@ -78,7 +78,6 @@ export default {
             this.title= "";
             this.content= "";
             this.file= "";
-            this.$store.dispatch("clearLog");
         },
 
         uploadImage() {

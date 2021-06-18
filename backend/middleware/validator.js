@@ -1,4 +1,4 @@
-  const Joi = require('joi'); /* package that will assure validation of data before modifying database */
+const Joi = require('joi'); /* package that will assure validation of data before modifying database */
 const emailValidator = require("email-validator");
 const passwordValidator = require("password-validator");
 
@@ -17,6 +17,7 @@ module.exports = {
 
       commentValidator : Joi.object().keys({
           content: Joi.string()
+            .required()
             .min(5).message('Et si vous en disiez un peu plus ? (au moins 5 caractères)')
             .max(300).message('Le commentaire ne peut pas excéder 300 caractères.')
             .regex(/^[a-z\u00C0-\u017F\d\-_\s\.,\?!;:']+$/i).message('Le commentaire ne peut contenir que des lettres, des chiffres ou de la ponctuation basique.'),
@@ -24,17 +25,18 @@ module.exports = {
   
         userValidator : Joi.object().keys({
           email: Joi.string()
+                .min(1).message('Une adresse email doit être fournie.')
                 .regex(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/).message('Vérifiez le format de l\'adresse email.'),
           password: Joi.string()
                 .min(8).message('Le mot de passe doit contenir au moins 8 caractères.')
                 .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){2})[a-zA-Z\d]+$/).message('Le mot de passe doit contenir au moins une majuscule et 2 chiffres, mais pas de caractères spéciaux, ni d\'accents.')
                 .invalid('Passw0rd', 'Password123'),
           firstname: Joi.string()
-                .min(1).message('Le prénom doit contenir au moins 1 caractère')
+                          .min(0).message('Le prénom doit contenir au moins 1 caractère')
                 .max(100).message('Le prénom ne peut pas excéder 100 caractères.')
                 .regex(/^[a-z\u00C0-\u017F-]+$/i).message('Le prénom ne peut contenir que des lettres et le tiret (-).'),
           lastname: Joi.string()
-                .min(1).message('Le nom doit contenir au moins 1 caractère.')
+                .min(0).message('Le nom doit contenir au moins 1 caractère.')
                 .max(100).message('Le nom ne peut pas excéder 100 caractères.')
                 .regex(/^[a-z\u00C0-\u017F-]+$/i).message('Le nom ne peut contenir que des lettres et le tiret (-).'),
           pseudo: Joi.string()
@@ -54,6 +56,7 @@ module.exports = {
           next(); 
         } else { /* error messages will be displayed in console and error 422 for request will be thrown */
           const { details } = error; 
+          console.log(details) ;
           const message = details.map(i => i.message).join("\r\n");       
           console.log("VALIDATION ERROR(s):\n", message); 
           res.status(422).json({ error: message }) } 

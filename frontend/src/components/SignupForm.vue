@@ -8,7 +8,7 @@
             <input id="signup-prenom" type="text" v-model="newUser.firstname" placeholder="Prenom" required>
 
             <label for="signup-pseudo">Pseudo :</label>
-            <input id="signup-pseudo" type="text" v-model="newUser.pseudo" placeholder="Pseudo" required>
+            <input id="signup-pseudo" type="text" v-model="newUser.pseudo" placeholder="Pseudo (facultatif)" >
 
             <label for="signup-password">Mot de passe :</label>
             <input id="signup-password" type="password" v-model="newUser.password" placeholder="Mot de passe" required>
@@ -102,7 +102,7 @@ export default {
 
     .error-message{
         background-color: rgba(255, 0, 0, 0.301);
-white-space: pre-line;
+        white-space: pre-line;
     }
 
     form input{

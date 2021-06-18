@@ -28,10 +28,10 @@
 
         <form class="modify-wrapper" v-if="modify">
             <label for="modify-title">Modifier le titre :</label>
-            <input type="text" id="modify-title" v-model="post.title">
+            <input type="text" id="modify-title" required v-model="post.title">
 
             <label for="modify-content">Modifier le contenu :</label>
-            <textarea id="modify-content" v-model="post.content"></textarea>
+            <textarea id="modify-content" required  v-model="post.content"></textarea>
             <div>
                 <button v-if="!post.imgUrl || (post.imgUrl && deleteImg) " @click.prevent="withImage = !withImage" ><span v-if="!withImage">Ajouter une image</span><span v-else>Sans image</span></button>
                 <div v-else-if="post.imgUrl && !deleteImg">
@@ -53,9 +53,11 @@
             </div>
         </form>
 
+        <div class="error-message">{{errorMessage}}</div>
+
         <button v-if="(post.userId == user.userId || user.admin == 1) && !modify" @click="modify = true">Modifier</button>
         <button v-if="modify" @click="cancelUpdatePost()">Annuler</button>
-        <button v-if="modify" @click="modifyOnePost(post.id)">Publier les modifications</button>
+        <button v-if="modify" @click="updatePost(post.id)">Publier les modifications</button>
         <button v-if="post.userId == user.userId || user.admin == 1"  @click.prevent="deletePost(post.id)">Supprimer le post</button>
         <button v-if="comments.length != 0 && !modify" @click="showComments = !showComments"><span v-if="!showComments">Voir</span><span v-else>Cacher</span> le<span v-if="comments.length != 1">s</span> commentaire<span v-if="comments.length != 1">s</span></button>
 
@@ -105,11 +107,12 @@ export default {
             newComment:'',
             file:'',
             deleteImg:false,
+            errorMessage:'',
+            isValid:false,
         }
     },
 
     computed: {
-        errorMessage() { return this.$store.getters.error; },
         post() { return this.$store.getters.post; },
         user() { return this.$store.getters.userLoggedIn; },
         likes() {
@@ -122,13 +125,14 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch("getPostById",this.$route.params.id);
-        this.$store.dispatch("getComments",this.$route.params.id);
+        this.$store.dispatch("getPostById",this.$route.params.id)
+            .catch((error) => this.errorMessage = error );
+        this.$store.dispatch("getComments",this.$route.params.id)
+            .catch((error) => this.errorMessage = error ) ;
     },
 
     methods: {
         getBackToFeed() {
-            this.$store.dispatch("clearLog");
             this.$router.push("/");
         },
             
@@ -167,8 +171,9 @@ export default {
                 id:id,
                 isOneVue:true})
             .then(() =>{
-                this.$store.dispatch("clearLog");
+                this.errorMessage = "";                
             })
+            .catch((error) => this.errorMessage = error )
         },
 
         uploadImage() {
@@ -181,7 +186,14 @@ export default {
             this.withImage = false;
         },
 
-        modifyOnePost(postId){
+        updatePost(postId){
+
+          const areEmpty = this.checkRequired(this.post, {
+              'content' : 'Le contenu du post', 
+              'title' : 'Le titre du post'})  ;
+          this.isValid = areEmpty.length != 0 ? false : true ; 
+
+          if(this.isValid){
             const formData = new FormData();
             formData.set("title", this.post.title);
             formData.set("content", this.post.content);
@@ -198,35 +210,38 @@ export default {
                 data : formData
                 })
             .then(()=>{ 
+                this.errorMessage = "";
                 this.modify = false;
                 this.deleteImg = false;
                 this.withImage= false;
-                this.$store.dispatch("clearLog");
             })  
+            .catch((error) => this.errorMessage = error )
+          }else{
+              areEmpty.forEach( item => { this.errorMessage += item + " ne doit pas être vide.\n" });
+          }
         },
 
         cancelUpdatePost() {
             this.$store.dispatch("getPostById",this.$route.params.id)
             .then(() =>{
+                this.errorMessage = "";
                 this.modify =false;
                 this.deleteImg = false ;
-                this.$store.dispatch("clearLog");
             })
+            .catch((error) => this.errorMessage = error )
         },
 
         deletePost(id) {
             this.$store.dispatch("deletePost", id)
             .then(() =>{
-                this.$store.dispatch("clearLog");
                 this.getBackToFeed() ; 
             })
+            .catch((error) => this.errorMessage = error )
         },
 
         deleteComment(id) {
             this.$store.dispatch("deleteComment", id)
-            .then(() =>{
-                this.$store.dispatch("clearLog");
-            })
+            .catch((error) => this.errorMessage = error )
         },
 
         addComment() {
@@ -235,19 +250,32 @@ export default {
                 data : {content : this.newComment}
             })
             .then(()=>{ 
-                    this.addCommentVisible = false;
-                    this.newComment='';
-                    this.showComments = true;
-                    this.$store.dispatch("clearLog"); 
+                this.errorMessage = "";
+                this.addCommentVisible = false;
+                this.newComment='';
+                this.showComments = true;
             })
-
+            .catch((error) => this.errorMessage = error )
         },
 
         cancelAddComment() {
-            this.addCommentVisible = false,
-            this.newComment='',
-            this.$store.dispatch("clearLog");
+            this.addCommentVisible = false ;
+            this.newComment='' ;
+            this.errorMessage = "";
         },
+
+          checkRequired(user, required){
+            const filtered =  Object.keys(user)
+              .filter(key => Object.keys(required).includes(key))
+              .reduce((obj, key) => {
+                obj[key] = user[key] == ''   ;
+                return obj;
+              }, {})  ;
+
+              return Object.entries(filtered)
+              .filter(val => val[1] == true)
+              .map( item => required[item[0]] )  ;
+          },
     }
 }
 </script>
@@ -336,6 +364,12 @@ export default {
         position: absolute;
         width: 1px;
     }
+
+    .error-message{
+        background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
+    }
+
 
     
 </style>

@@ -104,6 +104,7 @@ export default {
 
     .error-message{
         background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
     }
 
     label{

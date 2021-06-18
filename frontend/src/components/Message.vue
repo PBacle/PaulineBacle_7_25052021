@@ -1,8 +1,9 @@
 <template>
     <div class="msg-panel">
 
-        <transition name="fade" v-if="isVisible">
-            <div class="overlay" >
+        <transition name="fade" mode="out-in"
+        >
+            <div class="overlay" v-if="isVisible" >
               {{message}}
             </div>
         </transition>
@@ -59,10 +60,13 @@ export default {
 
     /* Transition */
     .fade-enter-active, .fade-leave-active {
-    transition: opacity .8s;
+    transition: all .8s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+
+
+.fade-enter-from,     .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      transform: translateY(-50px);
+      opacity: 0;
     }
 
 </style>

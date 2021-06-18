@@ -22,7 +22,7 @@
                     </div>
               <button id="modify-avatar"  @click.prevent="withImage = !withImage" >Changer l'avatar</button>
               <button  
-                v-if="userDisplayed.avatarUrl.split('/upload/users/')[1] != 'default.png'"
+                v-if="userDisplayed.avatarUrl && userDisplayed.avatarUrl.split('/upload/users/')[1] != 'default.png'"
                 id="delete-avatar"  @click.prevent="changeAvatar(userDisplayed.userId)">Supprimer l'avatar</button>
             </div>
           </div> 
@@ -36,13 +36,13 @@
                 <div>
                   <label for="modify-lastname"> Nom :</label>
                   <span v-if="!modify">{{userDisplayed.lastname}}</span>
-                  <input v-if="modify" type="text" id="modify-lastname" v-model="userDisplayed.lastname">
+                  <input v-if="modify" type="text" id="modify-lastname" required v-model="userDisplayed.lastname">
                 </div>
 
                 <div>
                   <label for="modify-firstname">Prénom :</label>
                   <span v-if="!modify">{{userDisplayed.firstname}}</span>
-                  <input v-if="modify" type="text" id="modify-firstname" v-model="userDisplayed.firstname">
+                  <input v-if="modify" type="text" id="modify-firstname" required v-model="userDisplayed.firstname">
                 </div>
 
                 <div>
@@ -55,9 +55,9 @@
               <fieldset>
                 <legend>Contact</legend>
                 <div>
-                  <label for="modify-bio">Adresse email :</label>
+                  <label for="modify-email">Adresse email :</label>
                   <span v-if="!modify">{{userDisplayed.email}}</span>
-                  <input v-if="modify" type="email" id="modify-email" v-model="userDisplayed.email">
+                  <input v-if="modify" type="email" id="modify-email" required v-model="userDisplayed.email">
                 </div>
               </fieldset>
 
@@ -75,15 +75,15 @@
 
 
             <p>Profil créé le {{dateFormat(userDisplayed.registerDate)}}.</p>
+
+            <div class="error-message">{{errorMessage}}</div>
+
             <div>
               <button v-if="(user.admin || userDisplayed.userId === user.userId) && !modify" class="modify-profile" @click="modify = true">Modifier</button>
               <button v-if="modify" @click="cancel()">Annuler</button>
               <button v-if="modify" @click="updateUser(userDisplayed.userId)">Enregistrer les modifications</button>
               <button v-if="user.admin || userDisplayed.userId === user.userId" class="delete-profile" @click="deleteUser(userDisplayed.userId)">Supprimer le compte</button>
             </div>
-
-            <div v-if="modify" class="error-message">{{errorMessage}}</div>
-
           </figcaption>
         </figure>
 
@@ -113,24 +113,40 @@ export default {
     return {
       modify:false,
       withImage:false,
+      isValid:false,
+      errorMessage:'',
     };
   },
 
   computed: {
       user() { return this.$store.getters.userLoggedIn; },
       userDisplayed() { return this.$store.getters.user; },
-      errorMessage() { return this.$store.getters.error; },
-},
+  },
+
 
   mounted() {
     this.$store.dispatch("getUserById", this.$route.params.id);
   },
 
+
   methods: {
+          checkRequired(user, required){
+            const filtered =  Object.keys(user)
+              .filter(key => Object.keys(required).includes(key))
+              .reduce((obj, key) => {
+                obj[key] = user[key] == ''   ;
+                return obj;
+              }, {})  ;
+
+              return Object.entries(filtered)
+              .filter(val => val[1] == true)
+              .map( item => required[item[0]] )  ;
+          },
+
+    
         cancel() {
             this.$store.dispatch("getUserById", this.$route.params.id);
             this.modify =false;
-            this.clearLog();
         },
 
         showPseudo(user){
@@ -148,9 +164,14 @@ export default {
         },        
 
         deleteUser(userId){
-                this.$store.dispatch("deleteAccount", userId).then(() => {
+              this.$store.dispatch("deleteAccount", userId)
+              .then(() => {
                   this.$emit('profile-deleted', { id: userId })
-                });
+                })
+              .catch((error) =>
+                  this.errorMessage = error            
+              );
+
         }, 
 
         uploadImage(userId) {
@@ -171,12 +192,23 @@ export default {
             this.$store.dispatch("updateAccount", {
                 id : userId, 
                 data : formData
-                }).then(() => {
-                  this.withImage= false;
-                });
+                })
+            .then(() => {
+                this.withImage= false;
+            })
+            .catch(() =>
+              this.errorMessage = "Une erreur s'est produite."            
+            );
         },
 
        updateUser(userId) {
+          const areEmpty = this.checkRequired(this.userDisplayed, {
+              'firstname' : 'Le prénom', 
+              'lastname' : 'Le nom de famille', 
+              'email' : 'L\'adresse email'})  ; 
+          this.isValid = areEmpty.length != 0 ? false : true ; 
+
+          if(this.isValid){
             const formData = new FormData();    
             formData.set("firstname", this.userDisplayed.firstname);
             formData.set("lastname", this.userDisplayed.lastname);
@@ -190,12 +222,13 @@ export default {
                 })
             .then(()=>{ 
                 this.modify = false;
-                setTimeout(this.clearLog, 1000) ;
-                })  
-        },
-
-        clearLog(){
-            this.$store.dispatch("clearLog");
+            })  
+            .catch((error) => {
+              this.errorMessage = error;
+            })
+          }else{
+              areEmpty.forEach( item => { this.errorMessage += item + " ne doit pas être vide.\n" });
+          }
         },
   }
 }
@@ -320,6 +353,7 @@ export default {
 
     .error-message{
         background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
     }
 
 </style>
