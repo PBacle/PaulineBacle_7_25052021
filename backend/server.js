@@ -1,5 +1,6 @@
 const http = require('http'); 
 const app = require('./app'); 
+const { setAdmin } = require('./config/admin');
 
 const normalizePort = (val) => { /* normalizePort returns a valid port */
   const port = parseInt(val, 10);
@@ -36,7 +37,6 @@ const errorHandler = (error) => {
 };
 
 const server = http.createServer(app); 
-
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
@@ -44,5 +44,10 @@ server.on('listening', () => {
   console.log(`Listening on ${bind}`);
 });
 
-server.listen(port);
-require("./config/admin"); 
+require("./config/admin") ;
+setAdmin()
+.then(res => {
+  console.log(res.message);
+  server.listen(port);
+})
+

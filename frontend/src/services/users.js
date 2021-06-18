@@ -7,17 +7,13 @@ export default {
   login(data) {
     return api().post("users/login", data);
   },
-  deleteAccount(id) {
-    return api().delete("users/accounts/" + id);
-  },
-
-  updateAccount(id, data) {
-    return api.put("users/accounts/" + id, data);
-  },
-  getUsers() {
-    return api().get("users/accounts");
-  },
   getUserById(id) {
-    return api().get("users/accounts/" + id);
+    return api().get("users/" + id);
+  },
+  updateAccount(id, data) {
+    return api().put("users/" + id, data);
+  },
+  deleteAccount(id) {
+    return api().delete("users/" + id);
   },
 };

@@ -1,16 +1,17 @@
 const router = require("express").Router();
-const postsCtrl = require("../controllers/posts");
+const postsCtrl = require("../controllers/post");
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 const {validateBody, validators} = require('../middleware/validator'); 
 
 router.get("/", auth, postsCtrl.getAllPosts);
-router.get("/profiles/:id", postsCtrl.getUserPosts); /** vir ci dessous */
-router.get("/profiles/:id/liked", postsCtrl.getUserLikedPosts); /** Pas de auth sinon on peut pas voir pr les autres */
-router.get("/:id", auth, postsCtrl.getOnePost); 
-router.post("/add", auth, multer, validateBody(validators.postValidator), postsCtrl.createPost);
-router.put("/:id", auth, multer, validateBody(validators.postValidator), postsCtrl.updatePost);
-router.delete("/:id", auth, multer, postsCtrl.deletePost);
+router.get("/:id",  auth, postsCtrl.getOnePost); 
+//router.get("/profiles/:id/liked", auth, postsCtrl.getUserLikedPosts); 
+//router.get("/profiles/:id", auth, postsCtrl.getUserPosts); 
+router.post("/add", auth,   validateBody(validators.postValidator), multer, postsCtrl.createPost);
+router.delete("/:id",  auth, multer, postsCtrl.deletePost);
+router.put("/:id", auth, validateBody(validators.postValidator),  multer,  postsCtrl.updatePost);
+
 
 module.exports = router;
 

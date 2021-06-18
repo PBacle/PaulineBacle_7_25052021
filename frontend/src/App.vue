@@ -1,8 +1,29 @@
 <template>
   <div id="app">
+    <MessagePanel :message="messageRetour" />
     <router-view/>
   </div>
 </template>
+
+
+<script>
+import MessagePanel from '@/components/Message.vue';
+
+export default {
+    name: 'OnePost',
+
+    components: {
+        MessagePanel,
+    }, 
+
+    computed: {
+      messageRetour() { 
+              console.log(this.$store.getters.message);
+
+        return this.$store.getters.message; },
+    }
+}
+</script>
 
 <style>
 html{
@@ -29,5 +50,9 @@ a {
 
 a.router-link-exact-active {
   color: inherit;
+}
+
+ul{
+  list-style: none;
 }
 </style>

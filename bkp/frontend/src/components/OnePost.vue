@@ -1,0 +1,280 @@
+<template>
+    <Header />
+
+    <button @click="getBackToFeed">Retour au fil d'actualité</button>
+
+    <div class="onePost">
+         <div class="post-wrapper" v-if="!modify">
+            <h2 class="post-title">{{post.title}}</h2>
+            <div class="post-content">{{post.content}}</div>
+<!--            
+            <div class="post-infos">
+                <span class="post-info">Posté le {{dateFormat(post.date)}} par
+                    <router-link :to="{ name: 'Profile', params: { id: post.userId } }"> 
+                    {{user.pseudo)}}
+                    </router-link> 
+                    </span>
+
+                <div >{{post.likes.length}}
+                        <button  @click.prevent="likePost(post.id)" 
+                        v-bind:class="checkLike(post.likes,$store.state.userLoggedIn)">
+                        J'aime</button> 
+                </div>
+                <div>
+                    <div> 
+                        <span v-if="post.comments != 0">{{post.comments.length}}</span><span v-else>Pas de</span> commentaire<span v-if="post.comments.length != 1">s</span> 
+                        <button v-if="post.comments != 0" @click="showComments = true">Voir le<span v-if="post.comments.length != 1">s</span> commentaire<span v-if="post.comments.length != 1">s</span></button>
+                    </div>
+                    <button @click="addCommentVisible = true">Ajouter un commentaire</button>
+                </div>
+            </div>
+
+-->
+        </div>
+<!--
+        <form class="modify-wrapper" v-if="modify">
+            <label for="modify-title">Modifier le titre :</label>
+            <input type="text" id="modify-title" v-model="post.title">
+
+            <label for="modify-content">Modifier le contenu :</label>
+            <textarea id="modify-content" v-model="post.content"></textarea>
+
+                <div>
+                    <button @click.prevent="toggleLink" >Gif</button>
+                    <button @click.prevent="toggleImage" >Image</button>
+                </div>
+
+                <div >
+                    <div v-if="withImage" >
+                        <label for="image" class="pr-2">Image</label>
+                        <input
+                            @change="uploadImage"
+                            type="file"
+                            accept="image/png, image/jpeg,
+                            image/bmp, image/gif"
+                            ref="file"
+                            id="image"
+                            />
+                    </div>
+                    <div v-if="withLink">
+                        <label for="link">Lien</label>
+                        <input
+                        type="url"
+                        v-model="post.link"
+                        id="link"
+                        placeholder="https://example.gif"
+                        >
+                    </div>
+                </div>
+        </form>
+
+-->
+        <button v-if="(post.userId == user.userId || user.admin == 1) && !modify" @click="modify = true">Modifier</button>
+        <button v-if="modify" @click="modify = false">Annuler</button>
+        <button v-if="modify" @click="modifyOnePost()">Publier les modifications</button>
+        <button v-if="post.userId == user.userId || user.admin == 1"  @click="deleteOnePost()">Supprimer le post</button>
+    </div>
+    
+</template>
+
+<script>
+//import axios from 'axios';
+//import Editor from '@tinymce/tinymce-vue';
+import Header from '@/components/Header.vue';
+
+export default {
+    name: 'OnePost',
+
+    components: {
+    Header,
+//      editor: Editor
+    },
+
+    data(){
+        return{
+            modifiedContent: '',
+            modify: false,
+            withImage: false,
+            withLink: false,
+            addCommentVisible : false
+        }
+    },
+
+    computed: {
+        post() { return this.$store.getters.post; },
+        userLoggedIn() { return this.$store.getters.userLoggedIn; },
+        user() { 
+            return this.$store.getters.user; 
+       },
+    },
+
+    mounted() {
+        this.$store.dispatch("getPostById",this.$route.params.id)
+        .then(()=>{
+            console.log(this.$store.state.post);
+            this.$store.dispatch("getUserById",this.$store.getters.post.userId );
+        });
+    },
+
+    methods: {
+        getBackToFeed() {
+        this.$router.push("/");
+        },
+        checkLike(likes,userId){
+            return likes.includes(userId) ?   'likedByUser post-like-btn' : 'post-like-btn'
+        },
+        dateFormat(date){
+            const event = new Date(date);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            return event.toLocaleDateString('fr-FR', options);
+        },
+
+
+  /*          
+        getOnePost(){
+            const postId = this.$route.params.id;
+            axios.get(`${this.$apiUrl}/posts/${postId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(res => {
+                this.post = res.data[0];
+
+                if(this.$user.userId === this.post.userId || this.$user.admin == 1){
+                    this.authorized = true;
+                 }
+
+                else{
+                    this.authorized = false;
+                }
+            })
+        },
+
+        deleteOnePost(){
+            const postId = this.$route.params.id;
+            
+            axios.delete(`${this.$apiUrl}/posts/${postId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(location.href = "/");
+        },
+
+        modifyOnePost(){
+            const postId = this.$route.params.id;
+            const title = document.querySelector('#modify-title').value;
+            const content = this.modifiedContent;
+            
+            axios.put(`${this.$apiUrl}/posts/${postId}`,
+                {
+                    postId,
+                    title,
+                    content
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(location.href = "/");
+        },
+*/
+    }
+}
+</script>
+
+<style scoped>
+    /* Post style */
+.likedByUser{
+    color:blue;
+}
+    .post-wrapper{
+        margin: 50px auto 30px auto;
+        padding: 30px;
+        max-width: 800px;
+        text-align: left;
+        box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
+        border-bottom: solid red 5px;
+    }
+
+    .post-title {
+        margin: 0;
+        color: red;
+        font-size: 2rem;
+    }
+
+    .post-content{
+        margin-top: 20px;
+    }
+
+    /* Modify style */
+
+    .modify-wrapper{
+        display: flex;
+        flex-direction: column;
+        margin: 50px auto;
+        padding: 30px;
+        max-width: 800px;
+        text-align: left;
+        box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
+        border-bottom: solid red 5px;
+    }
+
+    #modify-title {
+        margin: 0;
+        margin-bottom: 20px;
+        color: red;
+        font-size: 2rem;
+    }
+
+    #modify-content{
+        margin-top: 20px;
+        height: 200px;
+        width: calc(100% - 22px);
+        padding: 10px;
+        resize: none;
+        overflow-y: scroll;
+    }
+
+    .onePost button{
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 1.1rem;
+        color: white;
+        background-color: rgb(43, 42, 42);
+        border: none;
+        border-radius: 10px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+        margin: 0px 20px 50px 20px;
+    }
+
+    .delete-btn{
+        background-color: red !important;
+    }
+
+    label{
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: rgb(109, 109, 109);
+        text-align: left;
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+</style>
