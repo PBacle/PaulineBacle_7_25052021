@@ -5,29 +5,20 @@ const fs = require("fs");
 exports.getAllPosts = async (req, res) => {
   Post.getAll(function(err, result, fields) {
     if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    return res.status(200).send(result);
+   res.status(200).send(result);
   })
 };
-
-/*
-exports.getUserPosts = async (req, res) => {
-  Post.getAllByUSer(req.params.id, function(err, result, fields) {
-    if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    return res.status(200).send(result);
-  })
-};
-
-exports.getUserLikedPosts = async (req, res) => {
-  Post.getAllLikedByUSer(req.params.id, function(err, result, fields) {
-    if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    return res.status(200).send(result);
-  })
-};*/
 
 exports.getOnePost = async (req, res) => {
   Post.getOne(req.params.id, function(err, result, fields) {
     if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    return res.status(200).send(result);
+    if (result.length > 0) {
+      const post = result[0] ; 
+      return res.status(200).send(post);
+    } else {
+      return res.status(404).send({ error : "Ce post n'existe pas." });
+    }
+
   })
 };
 
@@ -46,7 +37,6 @@ exports.createPost = async (req, res) => {
     });
   })
 };
-
 
 exports.updatePost = async (req, res) => {
   const id = req.params.id;
@@ -83,10 +73,10 @@ exports.updatePost = async (req, res) => {
                   }
             })
         } else {
-            res.status(400).json({ error : "Vous n'avez pas les droits requis." });
+            res.status(401).json({ error : "Vous n'avez pas les droits requis." });
           }        
     }else{
-        return res.status(401).send({ error: "Aucun utilisateur trouvé." });    
+        return res.status(404).send({ error: "Aucun utilisateur trouvé." });    
     }
   }); 
 };
@@ -115,10 +105,10 @@ exports.deletePost = async (req, res) => {
             })    
         }
       }else{
-        res.status(400).json({ error : "Vous n'avez pas les droits requis." });
+        res.status(401).json({ error : "Vous n'avez pas les droits requis." });
       }
     }else{
-      return res.status(401).send({ error: "Post non trouvé." });
+      return res.status(404).send({ error: "Post non trouvé." });
     }
   })
 };

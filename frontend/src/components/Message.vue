@@ -49,7 +49,7 @@ export default {
         right:  30px;
         width: 400px;
         height: 100px;
-        background-color: rgba(255,0,0,0.8);
+        background-color: rgba(40,96,143,0.95);
         border-radius: 20px;
         z-index: 2;
                 color: white;

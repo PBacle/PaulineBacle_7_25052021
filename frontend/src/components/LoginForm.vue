@@ -56,18 +56,9 @@ export default {
         margin: 90px auto;
     }
 
-    img{
-        width: 100%;
-    }
-
     nav{
         font-size: 1.05rem;
         margin: 20px;
-    }
-
-    .active{
-        color: red;
-        font-weight: bold;
     }
 
     form{
@@ -87,26 +78,6 @@ export default {
         text-align: center;
     }
 
-    #login-btn{
-        padding: 10px;
-        font-size: 1.1rem;
-        color: white;
-        background-color: rgb(43, 42, 42);
-        border: none;
-        border-radius: 10px;
-        transition-duration: 0.2s;
-        cursor: pointer;
-    }
-
-    #login-btn:hover{
-        transform: scale(1.025);
-    }
-
-    .error-message{
-        background-color: rgba(255, 0, 0, 0.301);
-        white-space: pre-line;
-    }
-
     label{
         font-size: 0.8rem;
         font-weight: bold;
@@ -120,6 +91,10 @@ export default {
         padding: 0;
         position: absolute;
         width: 1px;
+    }
+
+    .log-alternatives{
+        margin-top:30px;
     }
 
     .log-alternatives > * {

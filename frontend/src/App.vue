@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MessagePanel :message="messageRetour" />
-    <router-view/>
+    <router-view :key="$route.path" />
   </div>
 </template>
 
@@ -43,13 +43,45 @@ body{
 a {
   color: inherit;
   text-decoration: none;
+  font-weight: bold;
 }
 
+
 a.router-link-exact-active {
-  color: inherit;
+  color:red;
 }
+
+a:hover{
+        color: rgb(117, 117, 117);
+    }
+
+
 
 ul{
   list-style: none;
 }
+
+
+    button{
+        padding: 10px;
+        font-size: 1.1rem;
+        color: white;
+        background-color: #28608f;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+    }
+
+    button:hover{
+        transform: scale(1.025);
+    }
+
+    .error-message{
+        background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
+    }
+
+
 </style>

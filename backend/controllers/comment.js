@@ -4,18 +4,14 @@ const token = require("../middleware/token");
 exports.getComments = async (req, res) => {
   Comment.getAll(req.params.id, function(err, result, fields) {
     if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    else if (result.length > 0) {
-        res.status(200).send(result);
-      } else {
-        return res.status(204);
-      }
+    res.status(200).send(result);
   })
 };
 
 exports.addComment = async (req, res) => {
   Comment.createOne(req.params.id,  token.getUserIdFromToken(req).id, req.body.content, function(err, result, fields) {
     if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
-    return res.status(200).json({messageRetour: "Votre commentaire a été publié." });
+    return res.status(201).json({messageRetour: "Votre commentaire a été publié." });
   })
 };
 
@@ -28,14 +24,14 @@ exports.deleteComment = async (req, res) => {
       const comment = result[0] ;
       if (userToken.id == comment.userId || userToken.admin) {
         Comment.deleteOne(id, function(err, result, field){
-          if (err) { return res.status(400).json({ err }); }
+          if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
           return res.status(200).json({ messageRetour: "Le commentaire a été supprimé." });
         })          
       }else{
-        return res.status(500).send({ error: "Vous n'avez pas les droits." })
+        return res.status(401).send({ error: "Vous n'avez pas les droits." })
       }  
     }else{
-      return res.status(401).send({ error: "Commentaire non trouvé." }) 
+      return res.status(404).send({ error: "Commentaire non trouvé." }) 
     }
   })
 };
@@ -48,7 +44,7 @@ exports.likePost = async (req, res) => {
     if (result.length > 0 ) {
       Comment.dislikePost(postId, userId, function (err, result, fields) {
         if (err) { return res.status(400).json({ err }); }
-        res.status(200).send({ messageRetour: "Vous n'aimez plus ce post." });
+        res.status(201).send({ messageRetour: "Vous n'aimez plus ce post." });
       })
     }else{
       Comment.likePost(postId, userId, function (err, result, fields) {

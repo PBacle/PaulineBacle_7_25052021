@@ -1,24 +1,19 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import UserAccount from '../views/User.vue';
 import Home from '../views/Home.vue';
-import Posts from '../components/Posts.vue';
 import OnePost from '../components/OnePost.vue';
 
 const routes = [
   {
     path: '/',
+    alias: ['/posts','/users'],
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/signup',
     name: 'Signup',
     component: () => import('../views/Signup.vue')
-  },
-  {
-    path: '/posts/',
-      name: 'Feed',
-      component: Posts
   },
   {
     path: '/posts/:id',

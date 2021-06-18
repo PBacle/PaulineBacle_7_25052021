@@ -23,7 +23,7 @@
 
             <button id="signup-btn" type="submit">S'inscrire</button>
         </form>
-        <div> 
+        <div class="log-alternatives">  
             <span>Vous avez déjà un compte ?</span> 
             <router-link to="/">Se connecter</router-link> 
         </div>
@@ -76,18 +76,9 @@ export default {
         margin: 90px auto;
     }
 
-    img{
-        width: 100%;
-    }
-
     nav{
         font-size: 1.05rem;
         margin: 20px;
-    }
-
-    .active{
-        color: rgb(255, 2, 2);
-        font-weight: bold;
     }
 
     form{
@@ -100,11 +91,6 @@ export default {
         margin: 10px;
     }
 
-    .error-message{
-        background-color: rgba(255, 0, 0, 0.301);
-        white-space: pre-line;
-    }
-
     form input{
         font-size: 1.05rem;
         padding: 10px;
@@ -112,20 +98,6 @@ export default {
         text-align: center;
     }
 
-    #signup-btn{
-        padding: 10px;
-        font-size: 1.1rem;
-        color: white;
-        background-color: rgb(43, 42, 42);
-        border: none;
-        border-radius: 10px;
-        transition-duration: 0.2s;
-        cursor: pointer;
-    }
-
-    #signup-btn:hover{
-        transform: scale(1.025);
-    }
 
     label{
         font-size: 0.8rem;
@@ -141,5 +113,13 @@ export default {
         position: absolute;
         width: 1px;
     }
-    
+
+    .log-alternatives{
+        margin-top:30px;
+    }
+
+    .log-alternatives > * {
+        padding: 0 5px  ;
+    }
+        
 </style>

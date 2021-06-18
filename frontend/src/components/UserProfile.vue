@@ -1,7 +1,8 @@
 <template>
 
-    <div class="UserProfile">
+    <div class="error-message">{{errorMessage}}</div>
 
+    <div class="UserProfile" v-if="isVisible && $store.state.isLoggedIn ">
       <section class="profile-wrapper" >
         <h1 class="profile-title" v-if=" userDisplayed.userId != user.userId">Profil de {{showPseudo(userDisplayed)}}</h1>
         <h1 class="profile-title" v-else>Votre profil</h1>
@@ -76,8 +77,6 @@
 
             <p>Profil créé le {{dateFormat(userDisplayed.registerDate)}}.</p>
 
-            <div class="error-message">{{errorMessage}}</div>
-
             <div>
               <button v-if="(user.admin || userDisplayed.userId === user.userId) && !modify" class="modify-profile" @click="modify = true">Modifier</button>
               <button v-if="modify" @click="cancel()">Annuler</button>
@@ -109,8 +108,10 @@ export default {
         UserPosts
   },
 
+  emits: ["profile-deleted"],
   data() {
     return {
+      isVisible:false,
       modify:false,
       withImage:false,
       isValid:false,
@@ -125,7 +126,12 @@ export default {
 
 
   mounted() {
-    this.$store.dispatch("getUserById", this.$route.params.id);
+    this.$store.dispatch("getUserById", this.$route.params.id)
+    .then(() => this.isVisible=true)
+    .catch((error) =>{
+      this.isVisible=false;
+      this.errorMessage = error;
+    });
   },
 
 

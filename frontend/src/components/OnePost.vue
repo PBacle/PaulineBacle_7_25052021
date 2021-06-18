@@ -3,7 +3,9 @@
 
     <button @click="getBackToFeed">Retour au fil d'actualité</button>
 
-    <div class="onePost">
+    <div class="error-message">{{errorMessage}}</div>
+
+    <div class="onePost" v-if="isVisible && $store.state.isLoggedIn ">
          <div class="post-wrapper" v-if="!modify">
             <h2 class="post-title">{{post.title}}</h2>
             <figure>
@@ -52,8 +54,6 @@
                 </div>
             </div>
         </form>
-
-        <div class="error-message">{{errorMessage}}</div>
 
         <button v-if="(post.userId == user.userId || user.admin == 1) && !modify" @click="modify = true">Modifier</button>
         <button v-if="modify" @click="cancelUpdatePost()">Annuler</button>
@@ -109,11 +109,13 @@ export default {
             deleteImg:false,
             errorMessage:'',
             isValid:false,
+            isVisible:true,
         }
     },
 
     computed: {
-        post() { return this.$store.getters.post; },
+        post() { 
+            return this.$store.getters.post; },
         user() { return this.$store.getters.userLoggedIn; },
         likes() {
             return {
@@ -121,14 +123,26 @@ export default {
                 userLiked : this.checkLike(this.post.hasLikedList, this.user.userId)
             }
         },
-        comments(){ return this.$store.getters.comments;}
+        comments(){
+            return this.$store.getters.comments;}
     },
 
     mounted() {
         this.$store.dispatch("getPostById",this.$route.params.id)
-            .catch((error) => this.errorMessage = error );
-        this.$store.dispatch("getComments",this.$route.params.id)
-            .catch((error) => this.errorMessage = error ) ;
+            .then(() => {
+                this.$store.dispatch("getComments",this.$route.params.id)
+                .then(() => {
+                    this.isVisible=true;
+                })
+                .catch((error) => {
+                    this.errorMessage = error ;
+                    this.isVisible=false;
+                } ) ;
+            })
+            .catch((error) =>{
+                this.errorMessage = error;
+                this.isVisible=false;
+            });
     },
 
     methods: {

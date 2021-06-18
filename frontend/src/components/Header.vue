@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <router-link to='/'>
-            <img src="@/assets/logos/icon-above-font.png" alt="Groupomania logo">
+            <img src="@/assets/logos/icon-above-font-transparent.png" alt="Groupomania logo">
         </router-link>
 
         <nav v-if="$store.state.isLoggedIn">
@@ -58,9 +58,6 @@ export default {
         font-size: 1.5rem;
     }
 
-    nav div:hover{
-        color: rgb(117, 117, 117);
-    }
 
     @media (max-width: 670px) {
         .header{

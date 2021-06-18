@@ -139,6 +139,7 @@ export default createStore({
         .then((response) => {
           const user = response.data;
           commit("SET_USER", user);
+          resolve();
         })  
         .catch(error => {
           if (error.response) {
@@ -205,6 +206,7 @@ export default createStore({
         .then((response) => {
           const posts = response.data;
           commit("GET_POSTS", posts);
+          resolve();
         })  
         .catch(error => {
           if (error.response) {
@@ -220,8 +222,9 @@ export default createStore({
       return new Promise((resolve,reject) => {
         Posts.getPostById(id)
         .then((response) => {
-          const post = response.data[0];
-          commit("GET_POST_BY_ID", post);
+            const post = response.data;
+            commit("GET_POST_BY_ID", post);
+            resolve();  
         })
         .catch(error => {
           if (error.response) {
@@ -319,6 +322,7 @@ export default createStore({
         .then((response) => {
           const comments = response.data;
           commit("GET_COMMENTS", comments);
+          resolve();
         })  
         .catch(error => {
           if (error.response) {
@@ -384,6 +388,7 @@ export default createStore({
               let updatedPost = response.data.filter(item=> item.id === post.id )[0] ; 
               commit("LIKE_POST", updatedPost.hasLikedList);
             }
+            resolve();
           })
           .catch(error => {
             if (error.response) {

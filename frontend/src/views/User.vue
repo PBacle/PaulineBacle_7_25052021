@@ -5,9 +5,9 @@
 
       <button @click="getBackToFeed">Retour au fil d'actualité</button>
 
-      <UserProfile v-if="$store.state.isLoggedIn && !deleted" @profile-deleted="afterDeleted" />
-
       <div class="error-message">{{errorMessage}}</div>
+
+      <UserProfile v-if="!deleted" @profile-deleted="afterDeleted" />
 
     </div>
 </template>

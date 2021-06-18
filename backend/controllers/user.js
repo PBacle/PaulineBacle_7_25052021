@@ -13,7 +13,7 @@ exports.signup = async (req, res) => {
       var msg = '';
       if (results[0].pseudo === req.body.pseudo) { msg = "Pseudo non disponible." }
       if (results[0].email === req.body.email) { msg = msg + "Email non disponible."}
-      return res.status(400).json({ error: "Erreur => " + msg });
+      return res.status(401).json({ error: "Erreur => " + msg });
     } else {
       bcrypt.hash(req.body.password, 10)
       .then(hash =>{
@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
                   return res.status(401).send({ error: "Mot de passe incorrect." });
               }else{
                   const tokenObject =  token.issueToken(result[0]);
-                  return res.status(200).send({
+                  return res.status(201).send({
                       user: {
                         userId : result[0].userId,
                         pseudo : result[0].pseudo, 
@@ -73,21 +73,10 @@ exports.getUser = async (req, res) => {
     if (result.length > 0) {
       const user = result[0] ; 
       user.avatarUrl = user.avatarUrl ? user.avatarUrl : `${req.protocol}://${req.get("host")}/upload/users/default.png` ;
-      res.status(200).send(user);
+      res.status(201).send(user);
     } else {
-      return res.status(401).send({ error : "Utilisateur non trouvé." });
+      return res.status(404).send({ error : "Cet utilisateur n'existe pas." });
     }
-  })
-};
-
-exports.getAllUsers = async (req, res) => {
-  User.getAll(function(err, result, fields) {
-    if(err) {    return res.status(500).send({ error: "Erreur serveur => " + err });   }
-    if (result.length > 0) {
-        res.status(200).send(result);
-      } else {
-        return res.status(401).send({ error: "Aucun utilisateur trouvé." });
-      }
   })
 };
 
@@ -123,18 +112,18 @@ exports.updateUser = async (req, res) => {
         User.updateOne(req.params.id,  newPseudo, newFirstname, newLastname,newEmail, newBio, newAvatar, function(err, result, fields) { 
               if(err) {    return res.status(500).send({error: "Erreur serveur => " + err  });   
               } else {
-                res.status(200).json({
+                res.status(201).json({
                     user: result[0],
-                    messageRetour: "Votre profil a bien été modifié.",
+                    messageRetour: "Le profil a bien été modifié.",
                   });
               }
         })
       }else{
-          return res.status(401).send({ error: "Aucun utilisateur trouvé." });    
+          return res.status(404).send({ error: "Aucun utilisateur trouvé." });    
       }
     }); 
   } else {
-    res.status(400).json({ error: "Vous n'avez pas les droits requis." });
+    res.status(401).json({ error: "Vous n'avez pas les droits requis." });
   }        
 };
 
@@ -160,11 +149,11 @@ exports.deleteUser = async (req, res) => {
             })    
         }
       }else{
-        return res.status(401).send({ error: "Utilisateur non trouvé." });
+        return res.status(404).send({ error: "Utilisateur non trouvé." });
       }
     })
   } else {
-    res.status(400).json({ error: "Vous n'avez pas les droits requis" });
+    res.status(401).json({ error: "Vous n'avez pas les droits requis" });
   }        
 };
   
