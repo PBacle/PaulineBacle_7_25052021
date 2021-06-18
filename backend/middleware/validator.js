@@ -40,6 +40,7 @@ module.exports = {
                 .max(100).message('Le nom ne peut pas excéder 100 caractères.')
                 .regex(/^[a-z\u00C0-\u017F-]+$/i).message('Le nom ne peut contenir que des lettres et le tiret (-).'),
           pseudo: Joi.string()
+                .allow(null, '')
                 .max(30).message('Le pseudo ne doit pas excéder 30 caractères.')
                 .regex(/^[a-z\u00C0-\u017F0-9_.-]{0,30}$/i).message('Le pseudo ne peut contenir que des lettres, des chiffres ou les caractères suivants : _, - et .'),
           bio: Joi.string()
@@ -76,18 +77,18 @@ module.exports = {
         .has().not().spaces()                           // Should not have spaces
         .is().not().oneOf(['Passw0rd', 'Password123', 'Azerty123']); 
       
+      var msg = "";
       if (
         !emailValidator.validate(req.body.email) ||
         !passwordSchema.validate(req.body.password)
       ) {
+        msg = emailValidator.validate(req.body.email) ? msg : msg + "L'adresse mail n'est pas au bon format.\n" ;
+        msg = passwordSchema.validate(req.body.password) ? msg : msg + "Le mot de passe n'est pas au bon format (min. 8 characteres avec des minuscules et des majuscules et 2 chiffres).\n" ;
+        
         return res.status(422).send({
-          error:
-            "\nMerci de vérifier ton adresse mail et ton mot de passe (min. 8 characteres avec des minuscules et des majuscules et 2 chiffres)  ",
+          error: msg,
         });
-      } else if (
-        emailValidator.validate(req.body.email) ||
-        passwordSchema.validate(req.body.password)
-      ) {
+      } else  {
         next();
       }
     }

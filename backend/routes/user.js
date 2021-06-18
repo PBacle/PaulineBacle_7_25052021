@@ -15,7 +15,7 @@ const limiter = rateLimit({
 router.get("/:id", auth,  userCtrl.getUser);
 router.delete("/:id", auth, userCtrl.deleteUser);
 router.post("/login", limiter, valid, userCtrl.login);
-router.post('/signup',  /*valid,*/ validateBody(validators.userValidator), userCtrl.signup); 
+router.post('/signup', validateBody(validators.userValidator), userCtrl.signup); 
 router.put("/:id", auth, multer, validateBody(validators.userValidator), userCtrl.updateUser);
 
 module.exports = router;

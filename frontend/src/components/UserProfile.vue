@@ -1,6 +1,6 @@
 <template>
 
-    <div class="error-message">{{errorMessage}}</div>
+    <div class="error-message" v-if="!modify">{{errorMessage}}</div>
 
     <div class="UserProfile" v-if="isVisible && $store.state.isLoggedIn ">
       <section class="profile-wrapper" >
@@ -66,7 +66,7 @@
                 <legend>Biographie</legend>
                 <div  class="profile-infos-bio">
                   <label v-if="modify" for="modify-bio">Ajouter quelques mots pour se présenter :</label>
-                  <textarea v-if="modify" id="modify-bio" v-model="userDisplayed.bio" rows="5"></textarea>
+                  <textarea v-if="modify" id="modify-bio" v-model="userDisplayed.bio" rows="7"></textarea>
                   <p v-if="!modify && userDisplayed.bio ">{{userDisplayed.bio}}</p>
                   <p v-else-if="!modify">Malheureusement, pas encore de présentation. </p>
                 </div>
@@ -74,10 +74,11 @@
 
             </form>
 
+            <p class="italic center">Profil créé le {{dateFormat(userDisplayed.registerDate)}}.</p>
 
-            <p>Profil créé le {{dateFormat(userDisplayed.registerDate)}}.</p>
+            <div class="error-message" >{{errorMessage}}</div>
 
-            <div>
+            <div class="button-panel">
               <button v-if="(user.admin || userDisplayed.userId === user.userId) && !modify" class="modify-profile" @click="modify = true">Modifier</button>
               <button v-if="modify" @click="cancel()">Annuler</button>
               <button v-if="modify" @click="updateUser(userDisplayed.userId)">Enregistrer les modifications</button>
@@ -153,6 +154,7 @@ export default {
         cancel() {
             this.$store.dispatch("getUserById", this.$route.params.id);
             this.modify =false;
+            this.errorMessage = "";
         },
 
         showPseudo(user){
@@ -260,6 +262,7 @@ export default {
       width : 90%;
     }
 
+
     .profile-card{
       display: flex;
       flex-direction: column;
@@ -313,20 +316,18 @@ export default {
       flex-direction: column;
     } 
 
-    button{
-      white-space: nowrap;
-        margin-top: 20px;
-        padding: 10px;
-        font-size: 1.1rem;
-        color: white;
-        background-color: rgb(43, 42, 42);
-        border: none;
-        border-radius: 10px;
-        transition-duration: 0.2s;
-        cursor: pointer;
-        margin: 0px 20px 50px 20px;
+
+    form{
+        display: flex;
+        flex-direction: column;
     }
 
+    form input{
+        font-size: 1.05rem;
+        padding: 10px;
+        margin-bottom: 15px;
+        text-align: left;
+    }
 
     fieldset{
       border : red dashed 2pt ;
@@ -347,9 +348,6 @@ export default {
       line-height: 20px;
       font-weight: bold;
     }
-    input{
-      line-height: 20px;
-    }
 
     legend {
       color : red ;
@@ -357,9 +355,10 @@ export default {
         padding : 0 20px ;
       }
 
-    .error-message{
-        background-color: rgba(255, 0, 0, 0.301);
-        white-space: pre-line;
-    }
+      .button-panel{
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 10px;
+      }
 
 </style>

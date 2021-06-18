@@ -7,7 +7,8 @@ class User {
         [pseudo,firstname, lastname, email, password], callback)
     };
 
-    static findOne (email,callback, pseudo = '@'){
+    static findOne (email,callback, pseudo){
+        if(!pseudo) pseudo = "@" ;
         connection.execute(`SELECT userId, pseudo, email, password, admin FROM users WHERE email = ? OR pseudo = ?`,[email,pseudo], callback)
     };
 

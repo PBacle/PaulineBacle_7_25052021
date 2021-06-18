@@ -24,12 +24,12 @@ exports.signup = async (req, res) => {
                 pseudo : req.body.pseudo, 
                 admin : null
               }
-            const tokenObject = token.issueToken(newUser);
+              const tokenObject = token.issueToken(newUser);
             return res.status(201).send({
                   user: newUser,
                   token: tokenObject.token,
                   expires: tokenObject.expiresIn,
-                  message: `Bonjour ${newUser.pseudo}, votre compte a bien été créé !`,
+                  message: "Bonjour "+ (newUser.pseudo != "" ? req.body.pseudo : req.body.firstname ) + ", votre compte a bien été créé !",
               });
           });          
       })

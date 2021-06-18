@@ -61,6 +61,10 @@ ul{
   list-style: none;
 }
 
+li a{
+  font-weight: normal ;
+}
+
 
     button{
         padding: 10px;
@@ -81,6 +85,29 @@ ul{
     .error-message{
         background-color: rgba(255, 0, 0, 0.301);
         white-space: pre-line;
+    }
+
+
+    .fas{
+        font-size: 1.5rem;
+    }
+
+    h1{
+        font-size: 3rem;
+    }
+
+
+    h2{
+        font-size: 1.8rem;
+    }
+
+
+    .italic{
+      font-style: italic;
+    }
+
+    .center{
+      text-align: center;
     }
 
 

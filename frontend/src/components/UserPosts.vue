@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h3>
+        <h2>
             <span v-if="typeList == 'postsLikedById'"> Les posts que <span v-if="!isCurrentUser">{{userDisplayed}} a</span><span v-else>vous</span> likés :</span>
             <span v-else><span v-if="!isCurrentUser">Les</span><span v-else>Vos</span> posts <span v-if="!isCurrentUser">de {{userDisplayed}}</span> :</span>
-        </h3>
+        </h2>
 
         <ul v-if="posts.length != 0"> 
             <li v-for = "post in posts" :key="post.id">
@@ -15,7 +15,7 @@
                 </article>
             </li>
         </ul>
-        <p v-else>
+        <p class="italic" v-else>
             <span v-if="typeList == 'postsLikedById'"><span v-if="!isCurrentUser">{{userDisplayed}} n'a</span><span v-else>Vous n'avez</span> pas encore liké de posts.</span>
             <span v-else><span v-if="!isCurrentUser">{{userDisplayed}} n'a</span><span v-else>Vous n'avez</span> pas encore rien posté<span v-if="!isCurrentUser">.</span><span v-else> : cliquez <router-link :to="{ name: 'Home'}">ici</router-link> pour ajouter votre premier post !</span></span>
         </p>
@@ -63,6 +63,8 @@ export default {
 </script>
 
 <style scoped>
+
+
     .UserPost{
         margin: 30px auto;
         max-width: 800px;
@@ -75,6 +77,10 @@ export default {
         box-shadow: 0px 0px 50px -7px rgba(0,0,0,0.1);
         text-align: left;
         transition-duration: .1s;
+    }
+
+    .post-title{
+        margin-top: 0;
     }
 
     .post:hover{

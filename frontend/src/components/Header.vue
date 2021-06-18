@@ -54,10 +54,6 @@ export default {
         transition-duration: .2s;
     }
 
-    .fas{
-        font-size: 1.5rem;
-    }
-
 
     @media (max-width: 670px) {
         .header{
