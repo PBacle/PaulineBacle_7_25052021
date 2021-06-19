@@ -1,14 +1,14 @@
 <template>
   <div class="newPost">
       
-    <div class="newPost-create-btn" @click="isVisible = !isVisible">Ajouter un nouveau post</div>
+    <button class="newPost-create-btn" @click="isVisible = !isVisible">Ajouter un nouveau post</button>
 
     <transition name="fade">
       <div class="overlay" v-if="isVisible">
           <div class="form-wrapper">
-            <span class="form-close"  @click="clearForm()">Fermer</span>
+            <div class="icon-close icon"  @click="clearForm()"></div>
 
-            <h1> Que veux-tu partager aujourd'hui ?</h1>
+            <h2> Que veux-tu partager aujourd'hui ?</h2>
 
             <form class="newPost-form"  @submit.prevent="sendNewPost()">
 
@@ -23,9 +23,9 @@
                             v-model="content"
                 ></textarea>
                 
-                <div>
+                <div class="newPost-img">
                     <button @click.prevent="withImage=!withImage" ><span v-if="!withImage">Ajouter une image</span><span v-else>Pas d'image</span></button>
-                    <div v-if="withImage" >
+                    <div class="newPost-img-input" v-if="withImage" >
                         <label for="image" class="pr-2">Image</label>
                         <input
                             @change="uploadImage"
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <p class="error">{{ errorMessage }}</p>
+                <p class="error-message">{{ errorMessage }}</p>
                 <button  id="newPost-btn" type="submit" :disabled="!isValid">Publier</button>
 
             </form>
@@ -63,12 +63,10 @@ export default {
             title: "",
             content: "",
             file: "",
+            errorMessage:""
         }
     },
 
-    computed: {
-        errorMessage() { return this.$store.getters.error; },
-    },
 
     methods: {
         clearForm(){
@@ -78,6 +76,7 @@ export default {
             this.title= "";
             this.content= "";
             this.file= "";
+            this.errorMessage="";
         },
 
         uploadImage() {
@@ -97,8 +96,10 @@ export default {
             this.$store.dispatch("createPost", formData)
             .then(()=>{ 
                 this.isValid = false;
-                setTimeout(this.clearForm, 1000) 
-                })
+            })
+            .catch((error) => {
+                this.errorMessage = error
+            })
         },
     }
 }
@@ -115,15 +116,13 @@ export default {
         padding: 20px;
         border-radius: 30px;
         background-color: rgb(255, 34, 34);
-        color: white;
-        max-width: 750px;
+        width: 75%;
+        white-space: nowrap;
         font-size: 1.5rem;
-        transition-duration: 0.2s;
-        cursor: pointer;
     }
 
     .newPost-create-btn:hover{
-        transform: scale(1.02);
+        transform: scale(1.1);
     }
 
     .overlay{
@@ -144,10 +143,16 @@ export default {
         background-color: white;
         display: flex;
         flex-direction: column;
-        padding: 5%;
+        padding: 40px;
         width: 800px;
-        height: 80%;
+        min-height: 80%;
         border-radius: 30px;
+    }
+
+    @media (max-width: 800px) {
+    .form-wrapper{
+            width: 100%;
+        }
     }
 
     .form-close{
@@ -161,20 +166,52 @@ export default {
         text-align: left;
     }
 
+    .newPost-img,.newPost-img-input{
+        display: flex;
+        align-items: center;
+    }
+
+    .newPost-img-input{
+        margin-left: 15px;
+          width: calc(100% - 140px);
+    }
+
+    @media (max-width: 800px) {
+    .newPost-img{
+            flex-direction: column;
+        align-items: flex-start;
+        }
+        .newPost-img-input{
+            margin-left: 0;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+    }
+
+    .newPost-img-input > *{
+        margin: 0 ;
+    }
+
+    #image{
+        overflow : hidden;
+        padding: 0 10px;
+
+    }
+
     form input{
         font-size: 1.05rem;
         padding: 10px;
         margin-bottom: 15px;
         text-align: center;
         text-align: left;
-        margin-bottom: 30px;    
     }
 
     form label{
         color: red;
         font-weight: bold;
         font-size: 1.3rem;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     #newPost-content{
@@ -184,18 +221,6 @@ export default {
         resize: none;
         overflow-y: scroll;
         margin-bottom: 30px;
-    }
-
-    #newPost-btn{
-        margin-top: 20px;
-        padding: 10px;
-        font-size: 1.1rem;
-        color: white;
-        background-color: rgb(43, 42, 42);
-        border: none;
-        border-radius: 10px;
-        transition-duration: 0.2s;
-        cursor: pointer;
     }
 
     /* Transition */

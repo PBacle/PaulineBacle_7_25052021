@@ -82,6 +82,7 @@ li  a:hover{
 
 ul{
   list-style: none;
+  padding: 0 20px ;
 }
 
 li a{
@@ -99,6 +100,7 @@ li a{
         border-radius: 10px;
         transition-duration: 0.2s;
         cursor: pointer;
+        white-space: nowrap;
         margin: auto 0;
     }
 
@@ -128,6 +130,7 @@ li a{
          font-weight: bold ;
          font-size: 1.2em;
          display: flex;
+         justify-content: flex-end;
          line-height: 30px;
          margin-right: 10px;
      }
@@ -138,7 +141,7 @@ li a{
 
      .icon::after{
          content:'' ;
-        background-color: black;
+        background-color: #28608f;
          display: block;
          height:30px;
          width: 30px;
@@ -154,6 +157,11 @@ li a{
      .icon.infos-likes::after{
         -webkit-mask-image: url(./assets/icons/like.svg);
         mask-image: url(./assets/icons/like.svg);
+     }
+
+     .icon.icon-close::after{
+        -webkit-mask-image: url(./assets/icons/cancel.svg);
+        mask-image: url(./assets/icons/cancel.svg);
      }
 
      .icon.infos-likes.likedByUser::after{

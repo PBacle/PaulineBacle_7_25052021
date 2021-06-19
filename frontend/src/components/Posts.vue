@@ -4,7 +4,7 @@
         <div v-if="posts.length != 0" >
             <section class="feed_hot">
                 <h2>Les + récents</h2>
-                <ul>
+                <ul class="posts">
                     <li  v-for = "post in posts.slice(0, 2)" :key="post.id">
                         <article class="post">
                             <router-link :to="{ name: 'OnePost', params: { id: post.id } }"> 
@@ -25,23 +25,21 @@
             </section>
             <section class="feed_all">
                 <h2>Le fil d'actualité</h2>
-                <ul v-if="allVisible">
+                <ul class="posts" v-if="allVisible">
                     <li  v-for = "post in limitPosts" :key="post.id">
                         <article class="post">
-                            <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
+                            <router-link :to="{ name: 'OnePost', params: { id: post.id } }"> 
                                 <div class="post-header">
-                                    <span class="post-info">Posté le {{dateFormat(post.creationDate)}} par {{showPseudo(post)}}</span>
-                                    <button class="post-delete" v-if="post.userId == user.userId || user.admin == 1" @click.prevent="deletePost(post.id)">
-                                        Supprimer
-                                        </button> 
-                                </div>  
-                                <h3 class="post-title">{{post.title}}</h3>
+                                    <h3 class="post-title">{{post.title}}</h3>
+                                    <button class="post-delete" v-if="post.userId == user.userId || user.admin == 1" @click.prevent="deletePost(post.id)">Supprimer</button> 
+                                </div>
+                                <div class="post-infos italic">Posté le {{dateFormat(post.creationDate)}} par {{showPseudo(post)}}</div>  
                                 <div class="post-content" v-html="characterLimit(post.content)"></div>
                                 <div class="post-footer">
                                     <div class="infos-likes icon" @click.prevent="likePost(post.id)" v-bind:class="checkLike(post.hasLikedList,user.userId)" >{{ nb(post.hasLikedList) }}</div>
                                     <div class="infos-comments icon disabled"  >{{nb(post.hasCommentedList)}}</div> 
                                 </div>
-                            </router-link>
+                            </router-link> 
                         </article>
                     </li>
                 </ul>
@@ -180,9 +178,10 @@ h2{
 
     .post-title{
         color: red;
+        margin-right: 20px;
     }
 
     .post-content{
-        font-size: .9rem;
+        margin: 20px 0;
     }
 </style>
