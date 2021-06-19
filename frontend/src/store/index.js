@@ -291,7 +291,7 @@ export default createStore({
            console.log(messageRetour);
            Posts.getPostById(post.id)
            .then((response) => {
-               const post = response.data[0];
+               const post = response.data;
                dispatch('setMsg', messageRetour);
                commit("GET_POST_BY_ID", post);
                resolve();

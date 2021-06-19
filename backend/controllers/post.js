@@ -13,7 +13,8 @@ exports.getOnePost = async (req, res) => {
   Post.getOne(req.params.id, function(err, result, fields) {
     if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
     if (result.length > 0) {
-      const post = result[0] ; 
+      const post = result[0] ;
+      console.log(post); 
       return res.status(200).send(post);
     } else {
       return res.status(404).send({ error : "Ce post n'existe pas." });

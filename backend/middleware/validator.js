@@ -11,7 +11,7 @@ module.exports = {
                 .regex(/^[a-z\u00C0-\u017F\d\-_\s\.,\?!;:']+$/i).message('Le titre ne peut contenir que des lettres, des chiffres ou de la ponctuation basique.'),
         content: Joi.string()
                 .min(10).message('Et si vous en disiez un peu plus ? (au moins 10 caractères)')
-                .max(300).message('Le post ne peut pas excéder 300 caractères.')
+                .max(400).message('Le post ne peut pas excéder 400 caractères.')
                 .regex(/^[a-z\u00C0-\u017F\d\-_\s\.,\?!;:']+$/i).message('Le post ne peut contenir que des lettres, des chiffres ou de la ponctuation basique.'),
       }).unknown(true).options({abortEarly : false}), /* this option enables to have all errors and not stop at the first one encountered */
 
@@ -32,11 +32,11 @@ module.exports = {
                 .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){2})[a-zA-Z\d]+$/).message('Le mot de passe doit contenir au moins une majuscule et 2 chiffres, mais pas de caractères spéciaux, ni d\'accents.')
                 .invalid('Passw0rd', 'Password123'),
           firstname: Joi.string()
-                          .min(0).message('Le prénom doit contenir au moins 1 caractère')
+                          .min(1).message('Le prénom doit contenir au moins 1 caractère')
                 .max(100).message('Le prénom ne peut pas excéder 100 caractères.')
                 .regex(/^[a-z\u00C0-\u017F-]+$/i).message('Le prénom ne peut contenir que des lettres et le tiret (-).'),
           lastname: Joi.string()
-                .min(0).message('Le nom doit contenir au moins 1 caractère.')
+                .min(1).message('Le nom doit contenir au moins 1 caractère.')
                 .max(100).message('Le nom ne peut pas excéder 100 caractères.')
                 .regex(/^[a-z\u00C0-\u017F-]+$/i).message('Le nom ne peut contenir que des lettres et le tiret (-).'),
           pseudo: Joi.string()

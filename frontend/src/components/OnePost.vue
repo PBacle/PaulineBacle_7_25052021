@@ -326,6 +326,7 @@ export default {
     .post-content{
         font-size: 1.4rem; 
         margin: 30px 0;
+        white-space: pre-line;
     }
 
     img{
@@ -427,6 +428,8 @@ export default {
 
     .comment-content{
         padding-top:10px;
+        white-space: pre-line;
+
     }
 
 

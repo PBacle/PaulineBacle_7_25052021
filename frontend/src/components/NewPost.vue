@@ -116,7 +116,7 @@ export default {
         padding: 20px;
         border-radius: 30px;
         background-color: rgb(255, 34, 34);
-        width: 75%;
+        width: 800px;
         white-space: nowrap;
         font-size: 1.5rem;
     }
@@ -221,6 +221,7 @@ export default {
         resize: none;
         overflow-y: scroll;
         margin-bottom: 30px;
+
     }
 
     /* Transition */
