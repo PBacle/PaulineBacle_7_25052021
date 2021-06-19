@@ -21,7 +21,7 @@
                             id="image"
                             />
               </div>
-              <div class="button-panel">
+              <div class="button-panel" v-if="user.admin || userDisplayed.userId === user.userId">
                 <button id="modify-avatar"  @click.prevent="withImage = !withImage" >Changer l'avatar</button>
                 <button  
                   v-if="userDisplayed.avatarUrl && userDisplayed.avatarUrl.split('/upload/users/')[1] != 'default.png'"
