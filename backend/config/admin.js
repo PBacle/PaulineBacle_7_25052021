@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const token = require("../middleware/token"); 
 const config = require("../config/config");
 
-// Fonction qui crée le compte admin dans la base de données à la connexion s'il n'existe pas
+// Creates an admin account in the database if it doesnt exist on the first connection 
 exports.setAdmin = async  () => {
   return new Promise((resolve)=>{
     User.findAdmin( function (err,results,fields) {

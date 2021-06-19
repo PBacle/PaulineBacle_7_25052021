@@ -56,7 +56,7 @@ module.exports = {
         
         if (valid) { 
           next(); 
-        } else { /* error messages will be displayed in console and error 422 for request will be thrown */
+        } else { /* error messages will be displayed in console and error 421 will be thrown */
           const { details } = error; 
           console.log(details) ;
           const message = details.map(i => i.message).join("\r\n");       
@@ -67,7 +67,6 @@ module.exports = {
 
 
     valid : (req, res, next) => {
-      // on vérifie le password et l'email
       const passwordSchema = new passwordValidator();
       passwordSchema
         .is().min(8)                                    // Minimum length 8

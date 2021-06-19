@@ -34,8 +34,7 @@
                             image/bmp, image/gif"
                             ref="file"
                             id="image"
-                            />
-                        
+                            />          
                     </div>
                 </div>
 
@@ -66,7 +65,6 @@ export default {
             errorMessage:""
         }
     },
-
 
     methods: {
         clearForm(){
@@ -228,7 +226,7 @@ export default {
     .fade-enter-active, .fade-leave-active {
     transition: opacity .8s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .fade-enter, .fade-leave-to {
     opacity: 0;
     }
 </style>

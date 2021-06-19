@@ -49,12 +49,3 @@ export default {
   }
 </script>
 
-<style scoped>
-
-
-    .error-message{
-        background-color: rgba(255, 0, 0, 0.301);
-        white-space: pre-line;
-    }
-
-</style>

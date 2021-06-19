@@ -86,7 +86,7 @@ CREATE TABLE `posts` (
 
 INSERT INTO `posts` (`id`, `title`, `content`, `imgUrl`, `creationDate`, `userId`) VALUES
 (1, 'Ceci est le premier post', 'Il faut bien que quelqu\'un commence ! \r\nVoici donc le premier post.', NULL, '2021-06-18 10:48:03', 4),
-(2, 'J\'aime la sauce Sriracha', 'Je voulais partager mon amour de cette sauce asiatique : un peu de riz, de sauce soja et quelques gouttes de Sriracha et c\'est le bonheur assuré !', 'http://localhost:3000/upload/posts/sauce-pimentee-sriracha-150g-coq1624017983108.jpg', '2021-06-18 10:57:41', 3),
+(2, 'J\'aime la sauce Sriracha', 'Je voulais partager mon amour de cette sauce asiatique : un peu de riz, de sauce soja et quelques gouttes de Sriracha et c\'est le bonheur assuré ! \r\nQui parmi vous partage ma passion ? ;D', 'http://localhost:3000/upload/posts/sauce-pimentee-sriracha-150g-coq1624017983108.jpg', '2021-06-18 10:57:41', 3),
 (3, 'Quelques règles de bonne conduite', 'Bienvenue sur ce nouvel espace de partage. \r\nN\'hésitez pas à poster ce que bon vous semble mais dans le respect de règles de base : \r\n- Pas d\'insultes, de propos misogynes ou racistes\r\n- Pas de harcèlement, \r\netc. \r\n\r\nUn modérateur veillera au respect de ces consignes et se réservera le droit de supprimer vos posts ou commentaires, voire votre compte, dans le cas contraire.', NULL, '2021-06-19 01:30:23', 1);
 
 -- --------------------------------------------------------

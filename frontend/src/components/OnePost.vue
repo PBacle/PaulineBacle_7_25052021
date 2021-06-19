@@ -126,8 +126,7 @@ export default {
                 userLiked : this.checkLike(this.post.hasLikedList, this.user.userId)
             }
         },
-        comments(){
-            return this.$store.getters.comments;}
+        comments(){ return this.$store.getters.comments;}
     },
 
     mounted() {
@@ -274,7 +273,7 @@ export default {
                 })
                 .catch((error) => this.errorMessage = error )
             }else{
-                    this.errorMessage = "Le commentaire ne peut pas être vide.";
+                this.errorMessage = "Le commentaire ne peut pas être vide.";
             }
 
         },
@@ -383,8 +382,6 @@ export default {
         position: absolute;
         width: 1px;
     }
-    
-
 
     .post-infos-comments{
         display: flex;

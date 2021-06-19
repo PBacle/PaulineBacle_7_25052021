@@ -288,7 +288,6 @@ export default createStore({
         Posts.updatePost(post.id, post.data)
          .then((response) => {
            const messageRetour = response.data.messageRetour ; 
-           console.log(messageRetour);
            Posts.getPostById(post.id)
            .then((response) => {
                const post = response.data;

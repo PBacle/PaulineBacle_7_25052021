@@ -1,7 +1,7 @@
 const express = require('express'); 
 const cors = require('cors');
 const bodyParser = require('body-parser'); 
-const path = require('path'); /* will be useful when dealing with storage of filzzzzzz */
+const path = require('path'); /* will be useful when dealing with storage of files */
 const connection = require('./mysql-connection'); 
 const helmet = require("helmet");/* safety package that protects API from weaknesses and prevents some issues like cross-site scripting, MIME sniffing et clickjacking */
 const nocache = require('nocache'); /* disables cache to make sure that user gets the more updated version */
@@ -12,7 +12,7 @@ const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/post');
 const commentsRoutes = require('./routes/comment');
 
-// Connection à la db
+// Connection to the database
 connection.connect(function (err) {
   if (err) {
     console.error('Connexion à la bdd échouée ! Erreur: ' + err.stack);

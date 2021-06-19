@@ -10,12 +10,8 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
-// Amelioration : changer destination en fonction post VS user
-  /*destination: (req, file, callback) => {
-    callback(null, "upload");
-  },*/
   destination: (req, file, callback) => {
-    let path = `./upload/${req.body.typeFile}s`;
+    let path = `./upload/${req.body.typeFile}s`; // typeFile can be 'user' or 'post'
     fs.mkdirsSync(path);
     callback(null, path);
   },

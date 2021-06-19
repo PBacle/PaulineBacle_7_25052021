@@ -1,8 +1,5 @@
 const bcrypt = require('bcrypt');
 const token = require("../middleware/token"); 
-//const CryptoJS = require('crypto-js');
-//const config = require("../config/config");
-//const cipherEmail = CryptoJS.AES.encrypt(req.body.email, config.security.cipher).toString();
 const User = require('../models/user');
 const fs = require("fs");
 
@@ -89,8 +86,8 @@ exports.updateUser = async (req, res) => {
       if(result.length > 0){
         const user = result[0] ;
         let newAvatar = user.avatarUrl;
-        if (req.file || req.body.deleteImage) {
-          if(user.avatarUrl){
+        if (req.file || req.body.deleteImage) { // Two cases : change the current avatar or delete the current avatar (and come back to the default one)
+          if(user.avatarUrl){ // Needs to remove previous avatar
                 const filename = user.avatarUrl.split(`/upload/${req.body.typeFile}s/`)[1];
                 fs.unlink(`upload/${req.body.typeFile}s/${filename}`, (err) => {
                   if (err) console.log(err);
@@ -101,7 +98,9 @@ exports.updateUser = async (req, res) => {
             }
             newAvatar = req.file ? `${req.protocol}://${req.get("host")}/upload/${req.body.typeFile}s/${req.file.filename}`:  null;
         }
-
+        /*  Change/delete avatar is done not as the same time as the rest of the data that might be updated :
+            those need to remain the same as before and not be blank 
+         */
         newLastname = (req.file || req.body.deleteImage) ? user.lastname : req.body.lastname ;
         newFirstname = (req.file || req.body.deleteImage) ? user.firstname : req.body.firstname ;
         newEmail = (req.file || req.body.deleteImage) ? user.email : req.body.email ;
@@ -134,9 +133,9 @@ exports.deleteUser = async (req, res) => {
     User.getOne(id, function(err, result, fields) {
       if(err) {    return res.status(500).send({ error: "Erreur serveur => " + err });   }
       if (result.length > 0) {
-        if(result[0].avatarUrl){
+        if(result[0].avatarUrl){ // need to remove the avatar file if it exists
             const filename = result[0].avatarUrl.split(`/upload/${req.body.typeFile}s/`)[1];
-            fs.unlink(`upload/${req.body.typeFile}s/${filename}`, () => { 
+            fs.unlink(`upload/${req.body.typeFile}s/${filename}`, () => {  
               User.deleteOne(id, function(err, result, field){
                 if (err) { return res.status(400).json({ error: "Erreur serveur => " + err }); }    
                 res.status(200).json({ messageRetour: "Utilisateur supprimé" });                    

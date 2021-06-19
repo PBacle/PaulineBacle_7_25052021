@@ -17,7 +17,7 @@ module.exports.issueToken =  function issueToken(user) {
   };
 }
 
-module.exports.getUserIdFromToken = function getUserIdFromToken(req) {
+module.exports.getUserIdFromToken = function getUserIdFromToken(req) { // this will throw an error if no token exists
   const token = req.headers.authorization.split(" ")[1]; 
   const decodedToken = JWT.verify(token, config.authentication.jwtSecret); 
   return {

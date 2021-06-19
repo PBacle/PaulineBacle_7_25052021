@@ -5,13 +5,12 @@
         </router-link>
 
         <nav v-if="$store.state.isLoggedIn">
-            <router-link :to="{ name: 'User', params: { id: $store.state.userLoggedIn.userId } }">
-                <div>Mon compte</div>
-            </router-link>
+            <router-link :to="{ name: 'User', params: { id: $store.state.userLoggedIn.userId } }">Mon compte</router-link>
             <div id="logOut-btn"  @click = "logOut" >Se déconnecter</div>
         </nav>
         <nav v-else>
-            <router-link to="/" class="active"><div>Se connecter</div></router-link> <router-link to="/signup"  ><div>S'inscrire</div></router-link>
+            <router-link to="/" class="active"><div>Se connecter</div></router-link>
+            <router-link to="/signup"  >S'inscrire</router-link>
         </nav>
     </div> 
  

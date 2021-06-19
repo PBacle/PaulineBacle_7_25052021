@@ -50,7 +50,7 @@ exports.updatePost = async (req, res) => {
           let newTitle =  req.body.title ? req.body.title : post.title ;
           let newContent =  req.body.content ? req.body.content : post.content ;
           let newUrl = post.imgUrl ;
-          if (req.file || req.body.deleteImage) {
+          if (req.file || req.body.deleteImage) { // two cases : change the file or delete the previous one => in any case, need to remove the previous file
                 if(post.imgUrl){
                     const filename = post.imgUrl.split(`/upload/${req.body.typeFile}s/`)[1];
                     fs.unlink(`upload/${req.body.typeFile}s/${filename}`, (err) => { // s'il y avait déjà une photo on la supprime
@@ -60,7 +60,7 @@ exports.updatePost = async (req, res) => {
                       }
                     });      
                 }
-                newUrl = req.file ? `${req.protocol}://${req.get("host")}/upload/${req.body.typeFile}s/${req.file.filename}` : null;
+                newUrl = req.file ? `${req.protocol}://${req.get("host")}/upload/${req.body.typeFile}s/${req.file.filename}` : null; 
             }
 
             Post.updateOne(id, newTitle, newContent, newUrl,  function(err, result, fields) { // on sauvegarde les changements dans la bdd
@@ -90,9 +90,9 @@ exports.deletePost = async (req, res) => {
     if (result.length > 0) {
       const post = result[0];
       if (user.id == post.userId  ) {
-        if(result[0].imgUrl !== null){
+        if(result[0].imgUrl !== null){ // in case a previous image was posted, it needs to be removed
             const filename = result[0].imgUrl.split(`/upload/${req.body.typeFile}s/`)[1];
-            fs.unlink(`upload/${req.body.typeFile}s/${filename}`, () => { // sil' y a une photo on la supprime et on supprime le compte
+            fs.unlink(`upload/${req.body.typeFile}s/${filename}`, () => { 
               Post.deleteOne(id, function(err, result, field){
                 if (err) { return res.status(500).json({ error: "Erreur serveur => " + err }); }
                 res.status(200).json({ messageRetour: "Le post a été supprimé." });                    

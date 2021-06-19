@@ -2,7 +2,7 @@ const token = require("../middleware/token");
 
 module.exports = (req, res, next) => { 
     try {
-        const decodedToken = token.getUserIdFromToken(req);
+        const decodedToken = token.getUserIdFromToken(req); // this will throw an error if no token exists : useful to make sur that nobody can access the pages if not connected 
         if ( !req.body.userId || (req.body.userId && req.body.userId == decodedToken.id) || decodedToken.admin )  {  
             next();
         } else  {

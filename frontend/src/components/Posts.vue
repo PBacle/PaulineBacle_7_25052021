@@ -183,5 +183,6 @@ h2{
 
     .post-content{
         margin: 20px 0;
+        white-space: pre-line;
     }
 </style>

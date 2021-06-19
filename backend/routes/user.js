@@ -8,8 +8,8 @@ const {valid, validateBody, validators} = require('../middleware/validator');
 const rateLimit = require("express-rate-limit"); 
 const limiter = rateLimit({
     windowMs: 3 * 60 * 1000, 
-    max: 300,
-    message: "too much abusive request, wait 3 minutes",
+    max: 3,
+    message: {error : "Trop d'essais infructeux : merci d'attendre 3 minutes avant de recommencer."},
 }); 
 
 router.get("/:id", auth,  userCtrl.getUser);

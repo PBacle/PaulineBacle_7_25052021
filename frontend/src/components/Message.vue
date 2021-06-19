@@ -1,8 +1,7 @@
 <template>
-    <div class="msg-panel">
 
-        <transition name="fade" mode="out-in"
-        >
+    <div class="msg-panel">
+        <transition name="fade" mode="out-in">
             <div class="overlay" v-if="isVisible" >
               {{message}}
             </div>
@@ -16,11 +15,6 @@
 export default {
     name: 'MessagePanel',
 
-    data(){
-        return{
-        }
-    },
-
     props: {
         message: { type: String, required: true, },
     }, 
@@ -29,16 +23,11 @@ export default {
         isVisible(){
             return this.message ? true : false ;
         }
-    },
-
-    methods: {
-    },
-
+    }
 }
 </script>
 
 <style scoped>
-
 
     .overlay{
         position: fixed;
@@ -63,8 +52,7 @@ export default {
     transition: all .8s;
     }
 
-
-.fade-enter-from,     .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .fade-enter-from, .fade-leave-to  {
       transform: translateY(-40px);
       opacity: 0;
     }

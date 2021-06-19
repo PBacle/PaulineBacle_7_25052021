@@ -6,8 +6,6 @@ const {validateBody, validators} = require('../middleware/validator');
 
 router.get("/", auth, postsCtrl.getAllPosts);
 router.get("/:id",  auth, postsCtrl.getOnePost); 
-//router.get("/profiles/:id/liked", auth, postsCtrl.getUserLikedPosts); 
-//router.get("/profiles/:id", auth, postsCtrl.getUserPosts); 
 router.post("/add", auth,   multer, validateBody(validators.postValidator), postsCtrl.createPost);
 router.delete("/:id",  auth, multer, postsCtrl.deletePost);
 router.put("/:id", auth, multer, validateBody(validators.postValidator),   postsCtrl.updatePost);
