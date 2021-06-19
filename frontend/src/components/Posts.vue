@@ -9,21 +9,14 @@
                         <article class="post">
                             <router-link :to="{ name: 'OnePost', params: { id: post.id } }"> 
                                 <div class="post-header">
-                                    <span class="post-info">Posté le {{dateFormat(post.creationDate)}} par {{showPseudo(post)}}</span>
-                                    <button class="post-delete" v-if="post.userId == user.userId || user.admin == 1" @click.prevent="deletePost(post.id)">
-                                        Supprimer
-                                        </button> 
-                                </div>  
-                                <h3 class="post-title">{{post.title}}</h3>
+                                    <h3 class="post-title">{{post.title}}</h3>
+                                    <button class="post-delete" v-if="post.userId == user.userId || user.admin == 1" @click.prevent="deletePost(post.id)">Supprimer</button> 
+                                </div>
+                                <div class="post-infos italic">Posté le {{dateFormat(post.creationDate)}} par {{showPseudo(post)}}</div>  
                                 <div class="post-content" v-html="characterLimit(post.content)"></div>
                                 <div class="post-footer">
-                                    <div class="post-footer-likes ">
-                                        {{ nb(post.hasLikedList) }}
-                                        <button  @click.prevent="likePost(post.id)" 
-                                                v-bind:class="checkLike(post.hasLikedList,user.userId)">
-                                            J'aime</button> 
-                                    </div>
-                                    <div class="post-footer-coments "> <span v-if="nb(post.hasCommentedList) != 0">{{nb(post.hasCommentedList)}}</span><span v-else>Pas de</span> commentaire<span v-if="nb(post.hasCommentedList) > 1 || nb(post.hasCommentedList) == 0 ">s</span> </div>
+                                    <div class="infos-likes icon" @click.prevent="likePost(post.id)" v-bind:class="checkLike(post.hasLikedList,user.userId)" >{{ nb(post.hasLikedList) }}</div>
+                                    <div class="infos-comments icon disabled"  >{{nb(post.hasCommentedList)}}</div> 
                                 </div>
                             </router-link> 
                         </article>
@@ -45,13 +38,8 @@
                                 <h3 class="post-title">{{post.title}}</h3>
                                 <div class="post-content" v-html="characterLimit(post.content)"></div>
                                 <div class="post-footer">
-                                    <div class="post-footer-likes ">
-                                        {{ nb(post.hasLikedList) }}
-                                        <button  @click.prevent="likePost(post.id)" 
-                                                v-bind:class="checkLike(post.hasLikedList,user.userId)">
-                                            J'aime</button> 
-                                    </div>
-                                    <div class="post-footer-coments "> <span v-if="nb(post.hasCommentedList) != 0">{{nb(post.hasCommentedList)}}</span><span v-else>Pas de</span> commentaire<span v-if="nb(post.hasCommentedList) > 1 || nb(post.hasCommentedList) == 0 ">s</span> </div>
+                                    <div class="infos-likes icon" @click.prevent="likePost(post.id)" v-bind:class="checkLike(post.hasLikedList,user.userId)" >{{ nb(post.hasLikedList) }}</div>
+                                    <div class="infos-comments icon disabled"  >{{nb(post.hasCommentedList)}}</div> 
                                 </div>
                             </router-link>
                         </article>
@@ -60,7 +48,7 @@
                 <button @click="limit += step" v-bind:disabled="limit> posts.length-1">{{showText}}</button>
             </section>
         </div>
-        <p v-else> Sois le premier à publier un post ! </p>
+        <p class="error-message page404" v-else> Sois le premier à publier un post ! </p>
 
     </div>
 
@@ -149,6 +137,14 @@ export default {
 </script>
 
 <style scoped>
+section{
+    margin: 60px auto;
+}
+
+h2{
+    margin-bottom: 60px;
+
+}
     .posts{
         margin: 0 auto;
         padding: 20px;
@@ -165,20 +161,8 @@ export default {
         transition-duration: .1s;
     }
 
-.likedByUser{
-    color: blue ;
-}
-
-ul{
-    list-style: none;
-}
-
     .post:hover{
         box-shadow: 0px 0px 50px -7px rgba(0, 0, 0, 0.2);
-    }
-
-    .post h2{
-        margin-top: 7px;
     }
 
     .post-header{
@@ -188,10 +172,10 @@ ul{
         font-size: .8rem;
     }
 
-    .post-modify{
-        color: rgb(219, 17, 17);
-        font-size: 1rem;
-        font-weight: bold;
+
+    .post-footer{
+        display: flex;
+        justify-content: flex-end;
     }
 
     .post-title{

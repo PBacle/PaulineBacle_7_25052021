@@ -47,6 +47,17 @@ export default {
         display: flex;
     }
 
+
+    nav a.router-link-exact-active {
+    color:red;
+    }
+
+    nav a:not(.router-link-exact-active):hover{
+            color: rgb(117, 117, 117);
+        }
+
+
+
     nav div{
         margin-left: 30px;
         font-weight: bold;

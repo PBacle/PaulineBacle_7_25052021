@@ -40,6 +40,29 @@ body{
   box-sizing: border-box;
 }
 
+    h1{
+        font-size: 3rem;
+    }
+
+
+    h2{
+        font-size: 1.8rem;
+    }
+
+    h3{
+        font-size: 1.5rem;
+    }
+
+    .italic{
+      font-style: italic;
+    }
+
+    .center{
+      text-align: center;
+    }
+
+ 
+
 a {
   color: inherit;
   text-decoration: none;
@@ -47,12 +70,12 @@ a {
 }
 
 
-a.router-link-exact-active {
-  color:red;
-}
-
-a:hover{
+ a:hover{
         color: rgb(117, 117, 117);
+    }
+
+li  a:hover{
+        color: #2c3e50;
     }
 
 
@@ -76,9 +99,16 @@ li a{
         border-radius: 10px;
         transition-duration: 0.2s;
         cursor: pointer;
+        margin: auto 0;
     }
 
-    button:hover{
+    button:disabled{
+      cursor: not-allowed;;
+        background-color: grey;
+
+    }
+
+    button:not(:disabled):hover{
         transform: scale(1.025);
     }
 
@@ -89,64 +119,21 @@ li a{
         
       }
 
-
-    .error-message{
-        background-color: rgba(255, 0, 0, 0.301);
-        white-space: pre-line;
-    }
-
-    .error-message.page404{
-      max-width: 50%;
-      margin:auto;
-      margin-top: 30px;
-      background-color: transparent;
-      color:black;
-      font-weight: bold;
-      font-style: italic;
-        font-size: 1.5rem;
-    }
-
-
-    .fas{
-        font-size: 1.5rem;
-    }
-
-    h1{
-        font-size: 3rem;
-    }
-
-
-    h2{
-        font-size: 1.8rem;
-    }
-
-
-    .italic{
-      font-style: italic;
-    }
-
-    .center{
-      text-align: center;
-    }
-
-    @media (max-width: 670px) {
-        .button-panel{
-            flex-wrap: wrap;
+   .button-panel button{
+          margin: 0 10px  ;
         }
-        .button-panel button{
-          margin: 10px 10px 0 10px ;
-        }
-    }
-
 
      .icon{
-         cursor: pointer;
          margin:0 5px ; 
          font-weight: bold ;
          font-size: 1.2em;
          display: flex;
          line-height: 30px;
          margin-right: 10px;
+     }
+
+     .icon:not(.disabled){
+       cursor:pointer;
      }
 
      .icon::after{
@@ -176,9 +163,36 @@ li a{
         color:red;
     }
 
-     .icon:hover::after{
+     .icon:not(.disabled):hover::after{
         transform: scale(1.15);
      }
+
+
+    .error-message{
+        background-color: rgba(255, 0, 0, 0.301);
+        white-space: pre-line;
+    }
+
+    .error-message.page404{
+      max-width: 50%;
+      margin:auto;
+      margin-top: 30px;
+      background-color: transparent;
+      color:black;
+      font-weight: bold;
+      font-style: italic;
+        font-size: 1.5rem;
+    }
+
+
+    @media (max-width: 670px) {
+        .button-panel{
+            flex-wrap: wrap;
+        }
+        .button-panel button{
+          margin: 10px 10px 0 10px ;
+        }
+    }
 
 
 </style>

@@ -30,7 +30,9 @@
             <label for="modify-content">Modifier le contenu :</label>
             <textarea id="modify-content" required  v-model="post.content"></textarea>
             <div>
-                <button v-if="!post.imgUrl || (post.imgUrl && deleteImg) " @click.prevent="withImage = !withImage" ><span v-if="!withImage">Ajouter une image</span><span v-else>Sans image</span></button>
+                <div class="button-panel" v-if="!post.imgUrl || (post.imgUrl && deleteImg)">
+                    <button  @click.prevent="withImage = !withImage" ><span v-if="!withImage">Ajouter une image</span><span v-else>Sans image</span></button>
+                </div>
                 <div class="button-panel" v-else-if="post.imgUrl && !deleteImg">
                     <button  @click.prevent="withImage = true" >Modifier l'image</button>
                     <button  @click.prevent="deleteImgPost()" >Supprimer l'image</button>

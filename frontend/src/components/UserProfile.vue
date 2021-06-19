@@ -11,7 +11,7 @@
           <div class="profile-avatar"> 
             <img :src="userDisplayed.avatarUrl"  >
             <div>
-                    <div v-if="withImage" >
+              <div v-if="withImage" >
                         <input
                             @change="uploadImage(userDisplayed.userId)"
                             type="file"
@@ -20,11 +20,13 @@
                             ref="file"
                             id="image"
                             />
-                    </div>
-              <button id="modify-avatar"  @click.prevent="withImage = !withImage" >Changer l'avatar</button>
-              <button  
-                v-if="userDisplayed.avatarUrl && userDisplayed.avatarUrl.split('/upload/users/')[1] != 'default.png'"
-                id="delete-avatar"  @click.prevent="changeAvatar(userDisplayed.userId)">Supprimer l'avatar</button>
+              </div>
+              <div class="button-panel">
+                <button id="modify-avatar"  @click.prevent="withImage = !withImage" >Changer l'avatar</button>
+                <button  
+                  v-if="userDisplayed.avatarUrl && userDisplayed.avatarUrl.split('/upload/users/')[1] != 'default.png'"
+                  id="delete-avatar"  @click.prevent="changeAvatar(userDisplayed.userId)">Supprimer l'avatar</button>
+              </div>
             </div>
           </div> 
 
