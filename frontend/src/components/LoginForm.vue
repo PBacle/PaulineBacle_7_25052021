@@ -43,7 +43,7 @@ export default {
                 this.$store.dispatch("setMsg", response.data.message) ;
                 this.$store.dispatch("logIn", response.data);
             } catch (error) {
-                this.errorMessage = error.response.data.error;
+                this.errorMessage = error.response ? error.response.data.error : "Une erreur s'est produite.";
             }
         }
     }

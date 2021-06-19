@@ -62,7 +62,7 @@ export default {
                     throw "Les mots de passe ne correspondent pas" ;
                 }
             } catch (error) {
-                this.errorMessage = error.response ? error.response.data.error : error ;
+                this.errorMessage = error.response ? error.response.data.error : "Une erreur s'est produite." ;
                 this.isValid = false;
             }
         }
