@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
             throw "Vous n'avez pas les droits !";
         }
     } catch (error) {
+        console.log(error);
         return res.status(401).json({ error : "Vous devez être connecté(e) pour accéder à cette page."});
     }
 };

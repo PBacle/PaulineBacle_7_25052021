@@ -9,7 +9,7 @@
             <div id="logOut-btn"  @click = "logOut" >Se déconnecter</div>
         </nav>
         <nav v-else>
-            <router-link to="/" class="active"><div>Se connecter</div></router-link>
+            <router-link to="/" class="active">Se connecter</router-link>
             <router-link to="/signup"  >S'inscrire</router-link>
         </nav>
     </div> 
@@ -57,7 +57,8 @@ export default {
 
 
 
-    nav div{
+    nav div,
+    nav a{
         margin-left: 30px;
         font-weight: bold;
         cursor: pointer;

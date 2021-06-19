@@ -1,7 +1,7 @@
 #  OpenClassrooms-Développeur Web 📎 Projet 7 - Créez un réseau social d’entreprise (Groupomania)
 
 👤 &nbsp; **Pauline BACLE** [🇫🇷 Contactez moi ](<bacle-pauline@orage.fr>)
-_`Début du projet le .../.../2021`_
+_`Début du projet le 24/05/2021`_
 
 ## Contenu de ce repository
 

@@ -4,7 +4,7 @@ const config = require("../config/config");
 module.exports.issueToken =  function issueToken(user) {
   const id = user.userId;
   const admin = user.admin ;
-  const expiresIn = '24H';
+  const expiresIn = '1H';
   const payload = {
     sub: id,
     adm: admin, 
