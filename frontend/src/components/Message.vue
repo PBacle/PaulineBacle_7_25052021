@@ -45,8 +45,8 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        top: 100px;
-        right:  30px;
+        top: 40px;
+        right:  40px;
         width: 400px;
         height: 100px;
         background-color: rgba(40,96,143,0.95);
@@ -65,7 +65,7 @@ export default {
 
 
 .fade-enter-from,     .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-      transform: translateY(-50px);
+      transform: translateY(-40px);
       opacity: 0;
     }
 

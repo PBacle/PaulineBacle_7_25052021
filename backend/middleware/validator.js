@@ -29,6 +29,7 @@ module.exports = {
                 .regex(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/).message('Vérifiez le format de l\'adresse email.'),
           password: Joi.string()
                 .min(8).message('Le mot de passe doit contenir au moins 8 caractères.')
+                .max(100).message('Le mot de passe ne doit pas excéder 100 caractères')
                 .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){2})[a-zA-Z\d]+$/).message('Le mot de passe doit contenir au moins une majuscule et 2 chiffres, mais pas de caractères spéciaux, ni d\'accents.')
                 .invalid('Passw0rd', 'Password123'),
           firstname: Joi.string()
